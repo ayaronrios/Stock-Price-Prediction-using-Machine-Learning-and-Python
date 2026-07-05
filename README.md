@@ -197,9 +197,5 @@ Some beginner-friendly improvements include:
 
 If you have ideas for improving the project, feel free to open an issue or submit a pull request.
 
----
 
-## License
-
-Consider adding an open-source license such as the **MIT License** so others know how they can use and contribute to the project.
 
