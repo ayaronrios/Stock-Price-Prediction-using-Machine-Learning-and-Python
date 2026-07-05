@@ -149,36 +149,23 @@ It is recommended to store generated artifacts inside an `outputs/` directory ra
 
 ---
 
-## Future Improvements
+## Roadmap
 
-Some ideas to extend the project:
+### Completed
+- ✅ Linear Regression model
+- ✅ Streamlit web interface
+- ✅ Yahoo Finance integration
+- ✅ Model evaluation metrics
+- ✅ CSV export
 
-* Store generated files inside an `outputs/` directory
-* Add `outputs/`, `*.pkl`, and generated CSV files to `.gitignore`
-* Pin dependency versions in `requirements.txt` for reproducibility
-* Add exception handling around `yfinance` downloads
-* Validate downloaded data before training
-* Use `st.cache_data` and `st.cache_resource` in the Streamlit application
-* Replace `input()` with `argparse` for a more flexible CLI
-* Support configurable:
-
-  * Stock ticker
-  * Date range
-  * Output directory
-* Refactor the code into reusable functions:
-
-  * `load_data()`
-  * `prepare_features()`
-  * `train_model()`
-  * `evaluate_model()`
-* Add unit tests
-* Experiment with more advanced models such as:
-
-  * Random Forest
-  * XGBoost
-  * LSTM
-* Implement proper time-series validation using walk-forward or backtesting techniques
-
+### Planned
+- ⏳ Random Forest and XGBoost models
+- ⏳ LSTM-based time series forecasting
+- ⏳ Additional technical indicators (RSI, MACD, Bollinger Bands)
+- ⏳ Hyperparameter tuning
+- ⏳ Walk-forward validation
+- ⏳ Docker support
+- ⏳ Unit tests
 
 
 
