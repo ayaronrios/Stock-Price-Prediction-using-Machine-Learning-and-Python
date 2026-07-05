@@ -1,89 +1,93 @@
 # Stock Price Prediction Using Machine Learning (Python)
 
-A small project that demonstrates using historical stock data from Yahoo Finance to train a simple Linear Regression model and predict the next-day closing price. It includes two entry points:
+An educational project that trains a simple Linear Regression model on historical stock data from Yahoo Finance to predict the next-day closing price. It provides two ways to run the pipeline: a Streamlit web UI (`app.py`) and a command-line script (`stockprediction.py`).
 
-- `app.py` — an interactive Streamlit app for selecting a stock, training a Linear Regression model on historical data, showing evaluation metrics and plots, and downloading prediction results.
-- `stockprediction.py` — a command-line script that downloads historical data, trains the same Linear Regression model, prints metrics and saves `predictions.csv` and `stock_prediction_model.pkl`.
+> Not financial advice — for learning and experimentation only.
 
-This repository is intended for learning and demonstration purposes, not for financial advice.
+## Features
+- Download historical OHLCV data from Yahoo Finance (yfinance)
+- Feature engineering: 5-day and 20-day moving averages (MA5, MA20)
+- One-step-ahead target: next-day closing price (Close.shift(-1))
+- Train / test split: first 80% for training, last 20% for testing
+- Train a scikit-learn LinearRegression model and evaluate (R², MSE, MAE)
+- Plot actual vs. predicted prices and save predictions and model to disk
 
-## Stack
-- Language(s): Python 3.x
-- Framework / runtime: Streamlit (for the web app)
-- Notable libraries: yfinance, pandas, scikit-learn, matplotlib, joblib
+## Repo structure
 
-## Project structure
-```text
-app.py                 # Streamlit app: interactive UI, model training & visualization
-stockprediction.py     # CLI script: train model, print metrics, plot, save predictions
-stock_prediction_model.pkl  # Trained LinearRegression model (binary) — consider removing from repo
-predictions.csv        # Example output of predictions (stored in repo)
-requirements.txt       # (empty) list dependencies here
-README.md              # This file (added/updated)
+```
+app.py                      # Streamlit app: interactive UI, train & visualize
+stockprediction.py          # CLI script: train model, print metrics, plot, save outputs
+stock_prediction_model.pkl  # Trained model (binary) — consider removing from repo
+predictions.csv             # Example output CSV (generated)
+requirements.txt            # Project dependencies
+README.md                   # This file
 ```
 
-How it fits together: Both `app.py` and `stockprediction.py` implement the same pipeline: download historical OHLCV data from Yahoo Finance (via yfinance), compute simple moving averages (MA5, MA20), set the next day's close as the target (shift -1), drop missing rows, split the dataset (first 80% for training, last 20% for testing), train a scikit-learn LinearRegression model, evaluate with R²/MSE/MAE, plot actual vs predicted, and save the predictions and model.
+## Installation
 
-## How to run
-The shortest path from a fresh clone to running the Streamlit app:
+1. Clone the repository:
 
 ```bash
-# clone
 git clone https://github.com/ayaronrios/Stock-Price-Prediction-using-Machine-Learning-and-Python.git
 cd Stock-Price-Prediction-using-Machine-Learning-and-Python
+```
 
-# create venv (optional but recommended)
+2. (Recommended) Create and activate a virtual environment:
+
+```bash
 python -m venv venv
-# Linux/Mac
+# macOS / Linux
 source venv/bin/activate
 # Windows
 venv\Scripts\activate
+```
 
-# install dependencies
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+# or, if you don't have a populated file:
 pip install streamlit yfinance pandas matplotlib scikit-learn joblib
+```
 
-# run streamlit app
+## Usage
+
+Streamlit web app (recommended for interactive exploration):
+
+```bash
 streamlit run app.py
 ```
 
-To run the command-line script:
+- Choose a stock from the dropdown and click "Predict Stock Price".
+- The app downloads data, trains the model, shows metrics and charts, and provides a CSV download.
+
+Command-line script:
 
 ```bash
 python stockprediction.py
-# then input a ticker when prompted (e.g. AAPL)
+# enter a ticker symbol when prompted, e.g. AAPL
 ```
 
-Outputs:
-- `stock_prediction_model.pkl` — saved model
-- `predictions.csv` — CSV of test set actual vs predicted prices
+## Outputs
+- `stock_prediction_model.pkl` — trained scikit-learn model (binary)
+- `predictions.csv` — test set actual vs predicted prices and differences
 
-## Notes, caveats & recommended improvements
-- Model: current implementation uses a vanilla LinearRegression with raw features. Consider adding feature scaling (StandardScaler), time-aware validation (walk-forward / expanding window), or more expressive models (RandomForest, XGBoost, LSTM) for better predictions.
-- Data leak / target shift: the target is `Close.shift(-1)` (next day), which is fine for one-step-ahead prediction, but ensure that rolling features do not incorporate the future.
-- Training in Streamlit: `app.py` retrains and writes `stock_prediction_model.pkl` each run. Use caching (st.cache_resource or st.cache_data) to avoid unnecessary retraining and file writes, or provide a "Train" button that clearly re-trains.
-- Robustness: add try/except around `yf.download` to handle network errors, and validate the presence of required columns before operations.
-- Reproducibility: add a properly populated `requirements.txt` (or use `pip freeze > requirements.txt`) and consider adding a `runtime.txt` or Dockerfile for reproducible environments.
-- Repo hygiene: remove binary files (`.pkl`) and generated CSVs from the repository and add them to `.gitignore`. Storing generated binaries in git is not recommended.
-- Tests & modularity: refactor training/prediction code into functions (e.g., `load_data()`, `prepare_features()`, `train_model()`, `evaluate()`) and add unit tests to validate behavior.
-- User input validation: `stockprediction.py` uses an unvalidated `input()` for the symbol; consider adding a CLI argument parser (argparse) and validation.
+Notes: These files are generated by the scripts. It's recommended to add them to `.gitignore` and write outputs to a dedicated `outputs/` folder.
 
-## Suggestions for quick improvements (small PRs)
-- Populate `requirements.txt` with the minimal dependencies:
-  - streamlit
-  - yfinance
-  - pandas
-  - matplotlib
-  - scikit-learn
-  - joblib
+## Recommendations & Next steps
+- Move generated files into an `outputs/` directory and add `outputs/` and `*.pkl` to `.gitignore`.
+- Populate `requirements.txt` with pinned versions for reproducibility.
+- Improve robustness: add try/except around `yf.download`, validate DataFrame columns, and provide informative errors to users.
+- Streamlit improvements: use `st.cache_data`/`st.cache_resource` to avoid unnecessary re-downloads and retraining.
+- Replace `input()` in `stockprediction.py` with `argparse` to allow non-interactive runs and configurable options (ticker, date range, output path).
+- Consider more advanced models (RandomForest, XGBoost, LSTM) and time-series evaluation (walk-forward/backtesting).
+- Refactor code into functions (`load_data`, `prepare_features`, `train_model`, `evaluate`) and add unit tests.
 
-- Update `app.py` to use st.cache_resource for the model and avoid saving to repo root on every run.
-- Add `.gitignore` to exclude `*.pkl`, `predictions.csv`, `venv/`, `__pycache__/`.
+## Contributing
+Contributions and improvements are welcome. Suggested quick PRs:
+- Add `.gitignore` (ignore `outputs/`, `*.pkl`, `predictions.csv`, `venv/`, `__pycache__/`).
+- Populate `requirements.txt`.
+- Add CLI flags and an `outputs/` folder for artifacts.
 
 ## License
-Add a license if you want to make the usage terms explicit (e.g., MIT).
-
----
-
-If you want, I can:
-- open a PR that adds the README (this commit), a populated requirements.txt, and a .gitignore, or
-- refactor the code to extract reusable functions and add unit tests.
+Add a LICENSE file (MIT recommended) if you want permissive reuse.
