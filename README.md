@@ -179,23 +179,7 @@ Some ideas to extend the project:
   * LSTM
 * Implement proper time-series validation using walk-forward or backtesting techniques
 
----
 
-## Contributing
-
-Contributions are welcome.
-
-Some beginner-friendly improvements include:
-
-* Add a `.gitignore` file
-* Populate `requirements.txt` with pinned package versions
-* Create an `outputs/` directory for generated artifacts
-* Add CLI arguments using `argparse`
-* Improve documentation
-* Refactor the project into reusable modules
-* Add automated tests
-
-If you have ideas for improving the project, feel free to open an issue or submit a pull request.
 
 
 
