@@ -1,4 +1,4 @@
-# Stock Price Prediction Using Machine Learning (Python)
+# Stock Price Prediction Using Machine Learning and Python
 
 An educational machine learning project that trains a **Linear Regression** model on historical stock market data from Yahoo Finance to predict the **next day's closing price**.
 
@@ -8,29 +8,36 @@ The project includes two ways to run the prediction pipeline:
 * **Command-Line Script** (`stockprediction.py`) – Train the model, evaluate its performance, and save predictions from the terminal.
 
 > **Disclaimer:** This project is intended for learning and experimentation only. It should not be used for financial or investment decisions.
+> 
+---
+
+## 🎥 Demo
+
+Watch the Streamlit web application demo:
+
+[View Website Demo](demo/website-demo.mp4)
+
+The demo shows the process of selecting a stock, training the machine learning model, generating predictions, and visualizing the results.
 
 ---
 
 ## Features
 
-* Download historical **OHLCV** stock data using Yahoo Finance (`yfinance`)
+* Download historical **OHLCV** stock data from Yahoo Finance using `yfinance`
 * Perform feature engineering using:
-
   * 5-day Moving Average (MA5)
   * 20-day Moving Average (MA20)
-* Predict the **next day's closing price** using `Close.shift(-1)`
-* Chronological train/test split:
-
-  * First 80% for training
-  * Last 20% for testing
+* Predict the **next day's closing price** using supervised learning
+* Apply a chronological train/test split:
+  * 80% training data
+  * 20% testing data
 * Train a **scikit-learn Linear Regression** model
-* Evaluate performance using:
-
+* Evaluate model performance using:
   * R² Score
   * Mean Squared Error (MSE)
   * Mean Absolute Error (MAE)
-* Visualize actual vs. predicted prices
-* Save the trained model and prediction results
+* Visualize actual vs. predicted stock prices
+* Save trained model and prediction results for future use
 
 ---
 
@@ -43,6 +50,8 @@ The project includes two ways to run the prediction pipeline:
 ├── stock_prediction_model.pkl  # Saved trained model (generated)
 ├── predictions.csv             # Prediction results (generated)
 ├── requirements.txt            # Project dependencies
+├── demo/
+│   └── website-demo.mp4        # Application demo video
 └── README.md                   # Project documentation
 ```
 
@@ -144,6 +153,7 @@ After execution, the following files are generated:
 | ---------------------------- | ------------------------------------------------ |
 | `stock_prediction_model.pkl` | Serialized trained Linear Regression model       |
 | `predictions.csv`            | Actual vs. predicted prices for the test dataset |
+| `demo/website-demo.mp4`      | Streamlit application demonstration video       |
 
 It is recommended to store generated artifacts inside an `outputs/` directory rather than the project root.
 
