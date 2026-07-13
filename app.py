@@ -21,9 +21,8 @@ h1{text-align:center;color:#2c5aa0;}
 </style>
 """, unsafe_allow_html=True)
 
-st.title("Stock Price Prediction Using Machine Learning")
+st.title("📈 Stock Price Prediction Using Machine Learning")
 st.caption("Linear Regression model using Yahoo Finance historical data")
-
 
 stocks = {
     "Apple (AAPL)": "AAPL",
@@ -43,8 +42,7 @@ if selected is None:
 
 stock = stocks[selected]
 
-if st.button("Predict",use_container_width=True):
-    # prediction code
+if st.button("Predict Stock Price", use_container_width=True):
 
     with st.spinner("Downloading stock data..."):
         df = yf.download(stock, start="2020-01-01", end="2025-01-01", auto_adjust=True)
