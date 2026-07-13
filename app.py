@@ -21,12 +21,30 @@ h1{text-align:center;color:#2c5aa0;}
 </style>
 """, unsafe_allow_html=True)
 
-st.title("📈 Stock Price Prediction Using Machine Learning")
+st.title("Stock Price Prediction Using Machine Learning")
 st.caption("Linear Regression model using Yahoo Finance historical data")
 
-stock = st.text_input("Enter Stock Symbol", "AAPL").upper()
 
-if st.button("Predict Stock Price", use_container_width=True):
+stocks = {
+    "Apple (AAPL)": "AAPL",
+    "Microsoft (MSFT)": "MSFT",
+    "Tesla (TSLA)": "TSLA"
+}
+
+selected = st.selectbox(
+    "Choose a Stock",
+    list(stocks.keys()),
+    index=None,
+    placeholder="Select a stock..."
+)
+
+if selected is None:
+    st.stop()
+
+stock = stocks[selected]
+
+if st.button("Predict",use_container_width=True):
+    # prediction code
 
     with st.spinner("Downloading stock data..."):
         df = yf.download(stock, start="2020-01-01", end="2025-01-01", auto_adjust=True)
